@@ -27,7 +27,7 @@ echo "Detected GPU: $GPU_INFO"
 if echo "$GPU_INFO" | grep -qi "NVIDIA"; then
   echo "Installing NVIDIA drivers..."
   sudo pacman -S --noconfirm --needed \
-  nvidia-dkms nvidia-utils lib32-nvidia-utils nvidia-settings \
+  nvidia-utils lib32-nvidia-utils nvidia-settings \
   vulkan-icd-loader lib32-vulkan-icd-loader mesa lib32-mesa
 
 elif echo "$GPU_INFO" | grep -qi "AMD"; then
@@ -47,7 +47,7 @@ fi
 # Core
 echo "Installing essential packages..."
 sudo pacman -S --noconfirm --needed \
-base-devel git fastfetch curl htop vim \
+base-devel fastfetch curl htop vim \
 gnome-tweaks gnome-shell-extensions gnome-terminal gnome-shell \
 gnome-control-center nautilus file-roller loupe evince \
 xdg-user-dirs-gtk gnome-keyring gdm \
@@ -86,16 +86,15 @@ fi
 echo "Setting CPU governor to performance..."
 sudo cpupower frequency-set -g performance || true
 
-# Enable services
-echo "Enabling services..."
-sudo systemctl enable --now gdm.service
-sudo systemctl enable --now thermald.service
-sudo systemctl enable --now power-profiles-daemon.service
-sudo systemctl enable --now cpupower.service
-
 # Cleanup
 echo "Cleaning package cache..."
 sudo pacman -Sc --noconfirm || true
 
-echo "Setup complete! Please reboot your system."
+# Enable services
+echo "Enabling services..."
+sudo systemctl enable --now thermald.service
+sudo systemctl enable --now power-profiles-daemon.service
+sudo systemctl enable --now cpupower.service
+sudo systemctl enable --now gdm.service
 
+echo "Setup complete! Please reboot your system."
