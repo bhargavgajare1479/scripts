@@ -44,6 +44,28 @@ else
   echo "Unknown GPU detected. Skipping driver install."
 fi
 
+# Audio Setup
+echo "Choose audio system: pipewire or pulseaudio"
+read -rp "Enter choice [pipewire/pulseaudio]: " AUDIO_CHOICE
+AUDIO_CHOICE=${AUDIO_CHOICE,,}
+
+case "$AUDIO_CHOICE" in
+  pipewire)
+    echo "Installing PipeWire audio stack..."
+    sudo pacman -S --noconfirm --needed \
+      pipewire pipewire-alsa pipewire-pulse pipewire-jack wireplumber \
+      gst-plugin-pipewire pavucontrol
+    ;;
+  pulseaudio)
+    echo "Installing PulseAudio audio stack..."
+    sudo pacman -S --noconfirm --needed \
+      pulseaudio pulseaudio-alsa pulseaudio-bluetooth pulseaudio-jack pavucontrol
+    ;;
+  *)
+    echo "Invalid option. Skipping audio installation."
+    ;;
+esac
+
 # Core
 echo "Installing essential packages..."
 sudo pacman -S --noconfirm --needed \
