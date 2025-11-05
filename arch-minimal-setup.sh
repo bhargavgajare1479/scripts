@@ -46,7 +46,7 @@ fi
 
 # Audio Setup
 echo "Choose audio system: pipewire or pulseaudio"
-read -rp "Enter choice [pipewire/pulseaudio]: " AUDIO_CHOICE
+read -rp "Enter choice [pipewire/pulseaudio]: " AUDIO_CHOICE < /dev/tty
 AUDIO_CHOICE=${AUDIO_CHOICE,,}
 
 case "$AUDIO_CHOICE" in
